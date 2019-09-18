@@ -2,10 +2,12 @@ var ui = SpreadsheetApp.getUi();
 var breakTag = '<br>';
 var sheet = SpreadsheetApp.getActiveSheet();
 
+
 //Add menu items on Google Sheets
 function onOpen() {
   ui.createMenu('Book Inventory')
       .addItem('Add Books', 'menuItem1')
+      .addItem('Search', 'menuItem2')
       .addToUi();
 }
 
@@ -17,6 +19,16 @@ function menuItem1() {
   
   SpreadsheetApp.getUi() 
      .showModalDialog(html, 'Add Books');
+}
+
+//Action when the Book Inveontory -> Book Inventory menu item is selected.
+function menuItem2() {
+  var html = HtmlService.createHtmlOutputFromFile('Search')
+  .setWidth(600)
+  .setHeight(800);
+  
+  SpreadsheetApp.getUi() 
+     .showModalDialog(html, 'Search');
 }
 
 function processForm(formObject) {
@@ -69,6 +81,10 @@ function processForm(formObject) {
   return output.getContent();
 }
 
+function processSearch(formObject) {
+  return null; 
+}
+
 
 function addDataToSheet(response){
   //This is just to show it's actually possible to insert data into Google Sheets.
@@ -92,6 +108,18 @@ function getBookInfoWithIsbn(isbn){
 // some fields are arrays, lets parse them out
 // so they are easy to read in a row
 function parseMyList(list) {
+}
+
+//prase list items to comma separated string
+function parseListToCommaSeparatedString(list) {
+  var comma_separated_string = "";
+  for (var i = 0; i < list.length; i++){
+    comma_separated_string + list[i];
+    if (i != list -1){
+      comma_separated_list + ', ';
+    }
+  }
+  return comma_separated_list;
 }
 
 function addToHashMap(response){
